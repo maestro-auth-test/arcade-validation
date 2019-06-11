@@ -71,7 +71,7 @@ jobs:
       inputs:
         scriptType: inlineScript
         inlineScript: |
-          Add-Content -Path  "$(Build.StagingDirectory)/Channels.txt" -Value "1"
+          Add-Content -Path  "$(Build.StagingDirectory)/Channels.txt" -Value "$(DefaultChannels)"
     - task: PublishBuildArtifacts@1
       displayName: Publish BAR BuildId to VSTS
       inputs:

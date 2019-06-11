@@ -100,34 +100,34 @@ stages:
             --prepareMachine
           displayName: Unix Build / Publish
 
-      - job: Validate_Helix
-        variables:
-        - HelixApiAccessToken: ''
-        - ${{ if and(ne(variables['System.TeamProject'], 'public'), notin(variables['Build.Reason'], 'PullRequest')) }}:
-          - group: DotNet-HelixApi-Access
-        - _BuildConfig: Release
-        steps:
-        - template: /eng/common/templates/steps/send-to-helix.yml
-          parameters:
-            HelixType: test/product/
-            XUnitProjects: $(Build.SourcesDirectory)/src/Validation/tests/Validation.Tests.csproj
-            XUnitTargetFramework: netcoreapp2.0
-            XUnitRunnerVersion: 2.4.1
-            IncludeDotNetCli: true
-            DotNetCliPackageType: sdk
-            DotNetCliVersion: 2.1.403
-            EnableXUnitReporter: true
-            WaitForWorkItemCompletion: true
-            ${{ if or(eq(variables['System.TeamProject'], 'public'), in(variables['Build.Reason'], 'PullRequest')) }}:
-              HelixTargetQueues: Windows.10.Amd64.Open;Debian.9.Amd64.Open
-              HelixSource: pr/dotnet/arcade-validation/$(Build.SourceBranch)
-              IsExternal: true
-              Creator: arcade-validation
-            ${{ if and(ne(variables['System.TeamProject'], 'public'), notin(variables['Build.Reason'], 'PullRequest')) }}:
-              HelixTargetQueues: Windows.10.Amd64;Debian.9.Amd64
-              HelixSource: official/dotnet/arcade-validation/$(Build.SourceBranch)
-              HelixAccessToken: $(HelixApiAccessToken)
-        displayName: Validate Helix
+#      - job: Validate_Helix
+#        variables:
+#        - HelixApiAccessToken: ''
+#        - ${{ if and(ne(variables['System.TeamProject'], 'public'), notin(variables['Build.Reason'], 'PullRequest')) }}:
+#          - group: DotNet-HelixApi-Access
+#        - _BuildConfig: Release
+#        steps:
+#        - template: /eng/common/templates/steps/send-to-helix.yml
+#          parameters:
+#            HelixType: test/product/
+#            XUnitProjects: $(Build.SourcesDirectory)/src/Validation/tests/Validation.Tests.csproj
+#            XUnitTargetFramework: netcoreapp2.0
+#            XUnitRunnerVersion: 2.4.1
+#            IncludeDotNetCli: true
+#            DotNetCliPackageType: sdk
+#            DotNetCliVersion: 2.1.403
+#            EnableXUnitReporter: true
+#            WaitForWorkItemCompletion: true
+#            ${{ if or(eq(variables['System.TeamProject'], 'public'), in(variables['Build.Reason'], 'PullRequest')) }}:
+#              HelixTargetQueues: Windows.10.Amd64.Open;Debian.9.Amd64.Open
+#              HelixSource: pr/dotnet/arcade-validation/$(Build.SourceBranch)
+#              IsExternal: true
+#              Creator: arcade-validation
+#            ${{ if and(ne(variables['System.TeamProject'], 'public'), notin(variables['Build.Reason'], 'PullRequest')) }}:
+#              HelixTargetQueues: Windows.10.Amd64;Debian.9.Amd64
+#              HelixSource: official/dotnet/arcade-validation/$(Build.SourceBranch)
+#              HelixAccessToken: $(HelixApiAccessToken)
+#        displayName: Validate Helix
 
   # Jobs that should only run as part of internal builds.
       - ${{ if and(ne(variables['System.TeamProject'], 'public'), notin(variables['Build.Reason'], 'PullRequest')) }}:
