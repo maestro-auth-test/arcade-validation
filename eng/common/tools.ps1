@@ -134,11 +134,12 @@ function Write-PipelineSetVariable {
     [string]$Value,
     [switch]$Secret,
     [switch]$AsOutput)
-
+    write-host "PipelineSetVariable ci=$ci name=$Name Value=$Value"
     if($ci) {
       Write-LoggingCommand -Area 'task' -Event 'setvariable' -Data $Value -Properties @{
         'variable' = $Name
         'issecret' = $Secret
+        'isoutput' = 'true'
       } -AsOutput:$AsOutput
     }
 }
