@@ -139,6 +139,9 @@ $ValidatePackage = {
   if ($FailedFiles -eq 0) {
     Write-Host "Passed."
   }
+  else {
+    Write-PipelineTaskError "$PackagePath has broken SourceLink links."
+  }
 }
 
 function ValidateSourceLinkLinks {
