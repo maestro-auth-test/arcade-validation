@@ -15,7 +15,8 @@ stages:
     dependsOn: setupMaestroVars
     condition: contains(dependencies.setupMaestroVars.outputs['setReleaseVars.InitialChannels'], variables.PublicValidationRelease_30_Channel_Id)
     variables:
-      BARBuildId: $[ dependencies.setupMaestroVars.outputs['setReleaseVars.BARBuildId'] ]
+      - name: BARBuildId
+        value: $[ dependencies.setupMaestroVars.outputs['setReleaseVars.BARBuildId'] ]
       - group: Publish-Build-Assets
     pool:
       vmImage: 'windows-2019'
