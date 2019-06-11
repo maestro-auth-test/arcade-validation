@@ -16,7 +16,7 @@ function InstallSourcelinkCli ($sourcelinkCliVersion) {
   $dotnet = "$dotnetRoot\dotnet.exe"
   $toolList = & "$dotnet" tool list --global
 
-  if ($toolList -like "*$sourcelinkCliPackageName*" && $toolList -like "*$sourcelinkCliVersion*") {
+  if (($toolList -like "*$sourcelinkCliPackageName*") -and ($toolList -like "*$sourcelinkCliVersion*")) {
     Write-Host "SourceLink CLI version $sourcelinkCliVersion is already installed."
   }
   else {

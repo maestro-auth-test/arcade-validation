@@ -16,7 +16,7 @@ function Installdotnetsymbol ($dotnetsymbolVersion) {
   $dotnet = "$dotnetRoot\dotnet.exe"
   $toolList = & "$dotnet" tool list --global
 
-  if ($toolList -like "*$dotnetsymbolPackageName*" && $toolList -like "*$dotnetsymbolVersion*") {
+  if (($toolList -like "*$dotnetsymbolPackageName*") -and ($toolList -like "*$dotnetsymbolVersion*")) {
     Write-Host "dotnet-symbol version $dotnetsymbolVersion is already installed."
   }
   else {

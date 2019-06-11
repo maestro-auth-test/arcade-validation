@@ -9,6 +9,7 @@ jobs:
   variables:
     BARBuildId: $[ dependencies.setupMaestroVars.outputs['setReleaseVars.BARBuildId'] ]
     ChannelId: ${{ parameters.ChannelId }}
+    - group: Publish-Build-Assets
   pool:
     vmImage: 'windows-2019'
   steps:

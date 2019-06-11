@@ -21,6 +21,8 @@ $ValidatePackage = {
     [string] $PackagePath                                 # Full path to a Symbols.NuGet package
   )
 
+  . $using:PSScriptRoot\..\tools.ps1
+
   # Ensure input file exist
   if (!(Test-Path $PackagePath)) {
     Write-PipelineTaskError "Input file does not exist: $PackagePath"
