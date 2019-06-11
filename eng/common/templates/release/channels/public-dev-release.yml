@@ -95,24 +95,25 @@ stages:
   jobs:
   - template: ../setup-maestro-vars.yml
 
-  - job:
-    displayName: Symbol Availability
-    dependsOn: setupMaestroVars
-    condition: and(parameters.enableSymbolValidation, contains(dependencies.setupMaestroVars.outputs['setReleaseVars.InitialChannels'], variables.PublicDevRelease_30_Channel_Id))
-    pool:
-      vmImage: 'windows-2019'
-    steps:
-      - task: DownloadBuildArtifacts@0
-        displayName: Download Package Artifacts
-        inputs:
-          buildType: current
-          artifactName: PackageArtifacts
+  - ${{ if eq(parameters.enableSymbolValidation, 'true') }}
+    - job:
+      displayName: Symbol Availability
+      dependsOn: setupMaestroVars
+      condition: contains(dependencies.setupMaestroVars.outputs['setReleaseVars.InitialChannels'], variables.PublicDevRelease_30_Channel_Id)
+      pool:
+        vmImage: 'windows-2019'
+      steps:
+        - task: DownloadBuildArtifacts@0
+          displayName: Download Package Artifacts
+          inputs:
+            buildType: current
+            artifactName: PackageArtifacts
 
-      - task: PowerShell@2
-        displayName: Check Symbol Availability
-        inputs:
-          filePath: $(Build.SourcesDirectory)/eng/common/release/symbols-validation.ps1
-          arguments: -InputPath $(Build.ArtifactStagingDirectory)/PackageArtifacts/ -ExtractPath $(Agent.BuildDirectory)/Temp/ -DotnetSymbolVersion $(SymbolToolVersion)
+        - task: PowerShell@2
+          displayName: Check Symbol Availability
+          inputs:
+            filePath: $(Build.SourcesDirectory)/eng/common/release/symbols-validation.ps1
+            arguments: -InputPath $(Build.ArtifactStagingDirectory)/PackageArtifacts/ -ExtractPath $(Agent.BuildDirectory)/Temp/ -DotnetSymbolVersion $(SymbolToolVersion)
 
   - job:
     displayName: Gather Drop
