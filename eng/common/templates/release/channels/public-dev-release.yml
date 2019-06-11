@@ -1,3 +1,7 @@
+parameters:
+  enableSigningValidation: false
+  enableSymbolValidation: false
+
 stages:
 - stage: Publish
   dependsOn: validate
@@ -94,7 +98,7 @@ stages:
   - job:
     displayName: Symbol Availability
     dependsOn: setupMaestroVars
-    condition: contains(dependencies.setupMaestroVars.outputs['setReleaseVars.InitialChannels'], variables.PublicDevRelease_30_Channel_Id)
+    condition: and(parameters.enableSymbolValidation, contains(dependencies.setupMaestroVars.outputs['setReleaseVars.InitialChannels'], variables.PublicDevRelease_30_Channel_Id))
     pool:
       vmImage: 'windows-2019'
     steps:
@@ -109,7 +113,6 @@ stages:
         inputs:
           filePath: $(Build.SourcesDirectory)/eng/common/release/symbols-validation.ps1
           arguments: -InputPath $(Build.ArtifactStagingDirectory)/PackageArtifacts/ -ExtractPath $(Agent.BuildDirectory)/Temp/ -DotnetSymbolVersion $(SymbolToolVersion)
-        continueOnError: true
 
   - job:
     displayName: Gather Drop
