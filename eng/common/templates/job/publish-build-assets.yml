@@ -60,17 +60,17 @@ jobs:
           /v:detailed
       condition: ${{ parameters.condition }}
       continueOnError: ${{ parameters.continueOnError }}
-    - task: powershell@1
+    - task: powershell@2
       displayName: Create BARBuildId Artifact
       inputs:
-        scriptType: inlineScript
-        inlineScript: |
+        targetType: inline
+        script: |
           Add-Content -Path  "$(Build.StagingDirectory)/BARBuildId.txt" -Value $(BARBuildId)
-    - task: powershell@1
+    - task: powershell@2
       displayName: Create Channels Artifact
       inputs:
-        scriptType: inlineScript
-        inlineScript: |
+        targetType: inline
+        script: |
           Add-Content -Path  "$(Build.StagingDirectory)/Channels.txt" -Value "$(DefaultChannels)"
     - task: PublishBuildArtifacts@1
       displayName: Publish BAR BuildId to VSTS
