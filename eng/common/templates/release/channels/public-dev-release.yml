@@ -95,7 +95,7 @@ stages:
   jobs:
   - template: ../setup-maestro-vars.yml
 
-  - ${{ if eq(parameters.enableSymbolValidation, 'true') }}
+  - ${{ if eq(parameters.enableSymbolValidation, 'true') }}:
     - job:
       displayName: Symbol Availability
       dependsOn: setupMaestroVars
