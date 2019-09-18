@@ -73,8 +73,6 @@ stages:
                 _SignType: real
                 _DotNetPublishToBlobFeed : true
         steps:
-        - checkout: self
-          clean: true
         # Use utility script to run script command dependent on agent OS.
         - script: eng\common\cibuild.cmd
             -configuration $(_BuildConfig) 
@@ -102,8 +100,6 @@ stages:
               _SignType: none
               _DotNetPublishToBlobFeed : false
         steps:
-        - checkout: self
-          clean: true
         - script: eng/common/cibuild.sh
             --configuration $(_BuildConfig)
             --prepareMachine
@@ -181,8 +177,6 @@ stages:
         dependsOn:
           - Asset_Registry_Publish
         steps:
-          - checkout: self
-            clean: true
           - powershell: eng/validation/update-channel.ps1
               -maestroEndpoint https://maestro-prod.westus2.cloudapp.azure.com
               -barToken $(MaestroAccessToken)
